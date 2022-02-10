@@ -5,9 +5,10 @@ Code to remove the Z0 monte carlo data from the dimuon mass data
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt 
+from scipy.optimize import curve_fit
 
 
-dimuon = r"Code\data\real-dimuon-400k.data"
+dimuon = r"Code\data\real-dimuon-4M.data"
 Z0 = r"Code\data\MC-Z0.data"
 
 data_dm = pd.read_csv(dimuon, delim_whitespace = True , header=None)
@@ -24,12 +25,18 @@ plt.xlabel('Invariant $\mu^{+} \mu^{-}$ mass (GeV/c$^{2}$)')
 plt.ylabel('No. of Events / 1 GeV/c$^{2}$')
 
 
-diff = n_dm - n_Z0
+diff = n_dm / n_Z0  # ratio MC-Z0 data to real dimuon data
 
 fig, ax = plt.subplots()
+ax.set_xlabel("Invariant $\mu^{+} \mu^{-}$ mass (GeV/c$^{2}$)")
+ax.set_ylabel("Ratio")
+ax.set_title("Ratio of MC-Z0 Data to Real Dimuon Data")
 
 # ax.hist(diff, bins=100, density = True)
 ax.bar(bins_dm[:-1], diff, width=1)
 print(diff)
 
 plt.show()
+
+
+
