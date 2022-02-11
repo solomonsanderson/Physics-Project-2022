@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 
-dimuon = r"Code\data\real-dimuon-4M.data"
+dimuon = r"Code\data\real-dimuon-400k.data"
 Z0 = r"Code\data\MC-Z0.data"
 
 data_dm = pd.read_csv(dimuon, delim_whitespace = True , header=None)
