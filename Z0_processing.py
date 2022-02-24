@@ -25,7 +25,7 @@ plt.xlabel('Invariant $\mu^{+} \mu^{-}$ mass (GeV/c$^{2}$)')
 plt.ylabel('No. of Events / 1 GeV/c$^{2}$')
 
 
-diff = n_dm / n_Z0  # ratio MC-Z0 data to real dimuon data
+diff = n_dm - n_Z0  # ratio MC-Z0 data to real dimuon data
 
 fig, ax = plt.subplots()
 ax.set_xlabel("Invariant $\mu^{+} \mu^{-}$ mass (GeV/c$^{2}$)")

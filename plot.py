@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 
-filename = r"Code\data\real-dimuon-400k.data"
+filename = r"Code\data\real-dimuon-4m.data"
 
 data = pd.read_csv(filename, delim_whitespace = True , header=None)
 print(data)

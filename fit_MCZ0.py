@@ -11,7 +11,7 @@ from scipy.special import wofz
 from scipy.special import voigt_profile
 
 
-path = r"Code\data\real-dimuon-400k.data"
+path = r"Code\data\higgs.data"
 
 data = pd.read_csv(path, delim_whitespace = True , header=None)
 effmass = data[6]
@@ -43,10 +43,14 @@ def power_series(x, a, k, x0):
     y = a * (x + x0)**(-k)
     return y 
 
-bins = bins[54:]
-n = n[54:]
+
+bins = bins[89:]
+
+n = n[89:]
+# bins = bins[:54]
+# n = bins[:54]
 print(len(n))
-popt_power, pcov_power = curve_fit(power_series, bins, n, maxfev = 10000)
+popt_power, pcov_power = curve_fit(power_series, bins, n, maxfev = 1000000)
 a, k, x0 = popt_power[0], popt_power[1], popt_power[2]
 ax.plot(bins+0.5, power_series(bins, a, k, x0),label=f"Power Fit Curve:\n $a={a:.5f}$ \n $k={k:.5f}$ \n $x_0 = {x0:.5f}$" , color="forestgreen", marker = None)
 
