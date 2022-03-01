@@ -1,14 +1,17 @@
+'''Plots higgs data and fits the crystal ball function'''
+
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 from scipy.integrate import quad
+from load import load_data
 
 
 path = r"Code\data\higgs.data"
 
-data = pd.read_csv(path, delim_whitespace = True , header=None)
-effmass = data[6]
+effmass = load_data(path)[6]
 fig, ax = plt.subplots()
 
 
@@ -57,8 +60,7 @@ def crystal_ball(x, alpha, n, x_bar, sigma):
         f = greater_minus_alpha(x)
     elif ((x - x_bar)/sigma<=-alpha):
         f = less_equal_minus_alpha(x)
-    # else:
-    #     print("Neither")
+
     return f
 
 crystal_ball_vec = np.vectorize(crystal_ball)
