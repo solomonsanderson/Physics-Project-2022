@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-effmass = load_data(r"Code\data\real-dimuon-29M.data")[6]
+effmass = load_data(r"Code\data\real-dimuon-4M.data")[6]
 
 fig, ax = plt.subplots()
 n, bins, patches = ax.hist(effmass, bins = 500, range = [110,140], density=False, alpha=0.3, label="Dimuon Data")
