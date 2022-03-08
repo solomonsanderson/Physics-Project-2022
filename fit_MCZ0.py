@@ -37,7 +37,8 @@ if __name__ == "__main__":
     bins = bins[:-1]
     popt, pcov = curve_fit(V, bins, n,  p0=[1.35105, 2.20259, 90.25890], maxfev = 7000)
     alpha, gamma, x0 = popt[0], popt[1], popt[2]
-    ax.plot(bins + 0.5, V(bins, alpha, gamma, x0), label=f"Voigt Fit Curve:\n $\\alpha={alpha:.5f}$ \n $\\gamma={gamma:.5f}$ \n $x_0 = {x0:.5f}$", color="hotpink"    )
+    alpha_err, gamma_err, x0_err = np.sqrt(np.diag(pcov))
+    ax.plot(bins + 0.5, V(bins, alpha, gamma, x0), label=f"Voigt Fit Curve:\n $\\alpha={alpha:.5f} \pm {alpha_err:.3f}$ \n $\\gamma={gamma:.5f} \pm {gamma_err:.3f}$ \n $x_0 = {x0:.5f} \pm {x0_err:.3f}$", color="hotpink")
     ax.set_xlabel('Invariant $\mu^{+} \mu^{-}$ mass (GeV/c$^{2}$)')
     ax.set_ylabel("Number")
     ax.set_title("Histogram of MC-Z0 data with Power Curve")
@@ -47,7 +48,8 @@ if __name__ == "__main__":
 
     popt_power, pcov_power = curve_fit(power_series, bins, n, maxfev = 1000000)
     a, k, x0 = popt_power[0], popt_power[1], popt_power[2]
-    ax.plot(bins+0.5, power_series(bins, a, k, x0),label=f"Power Fit Curve:\n $a={a:.5f}$ \n $k={k:.5f}$ \n $x_0 = {x0:.5f}$" , color="forestgreen", marker = None)
+    a_err, k_err, x0_err = np.sqrt(np.diag(pcov_power))
+    ax.plot(bins+0.5, power_series(bins, a, k, x0),label=f"Power Fit Curve:\n $a={a:.5f} \pm {a_err:.3f}$ \n $k={k:.5f}\pm{k_err:.3f}$ \n $x_0 = {x0:.5f}\pm{x0_err:.3f}$" , color="forestgreen", marker = None)
 
 
     ax.legend()
