@@ -2,6 +2,7 @@
 Code to remove the Z0 monte carlo data from the dimuon mass data
 '''
 
+
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt 
@@ -34,7 +35,6 @@ ax.set_title("Ratio of MC-Z0 Data to Real Dimuon Data")
 
 # ax.hist(diff, bins=100, density = True)
 ax.bar(bins_dm[:-1], diff, width=1)
-print(diff)
 
 plt.show()
 
