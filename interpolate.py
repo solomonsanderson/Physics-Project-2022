@@ -6,11 +6,12 @@ from load import load_data
 from fit_MCZ0 import power_series
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from scipy.stats import chisquare
 import scipy.integrate as integrate
 import numpy as np  
 
 
-effmass = load_data("Code/data/real-dimuon-29M.data")[6]
+effmass = load_data("Code/data/real-dimuon-4M.data")[6]
 
 
 fig, ax = plt.subplots()
@@ -29,7 +30,9 @@ n_gap = np.array(list(n[:ll]) + list(n[ul:]))
 popt_gap, pcov_gap = curve_fit(power_series, bins_gap[:-1], n_gap, maxfev = 10000, p0 = [5.32501, 2.13, 91.05])
 a, k, x0 = popt_gap
 a_err, k_err, x0_err = np.sqrt(np.diag(pcov_gap))
-ax.plot(bins, power_series(bins, *popt_gap), label=f"Power Fit Curve:\n $a={a:.5f} \pm {a_err:.3f}$ \n $k={k:.5f}\pm{k_err:.3f}$ \n $x_0 = {x0:.5f}\pm{x0_err:.3f}$" , color="forestgreen", marker = None)
+chisq_test_stats = chisquare(n, power_series(bins, *popt_gap)[:-1])
+
+ax.plot(bins, power_series(bins, *popt_gap), label=f"Power Fit Curve:\n $a={a:.5f} \pm {a_err:.3f}$ \n $k={k:.5f}\pm{k_err:.3f}$ \n $x_0 = {x0:.5f}\pm{x0_err:.3f}$ \n $\chi^2$ = {chisq_test_stats[0]:.3f}\np-value = {chisq_test_stats[1]:.3f}" , color="forestgreen", marker = None)
 
 # Calculating the area under the power series fit
 integral = integrate.quad(power_series, bins[ll], bins[ul], args=(a, k, x0))

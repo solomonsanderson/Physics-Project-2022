@@ -14,7 +14,7 @@ from scipy.stats import chisquare
 higgs_effmass = load_data(r"Code\data\higgs.data")
 scale = len(higgs_effmass) / 240.816
 
-effmass = load_data(r"Code\data\real-dimuon-400K.data")[6]
+effmass = load_data(r"Code\data\real-dimuon-29M.data")[6]
 
 fig, ax = plt.subplots()
 n, bins, patches = ax.hist(effmass, bins = 500, range = [110,140], density=False, alpha=0.3, label="Dimuon Data")
@@ -33,7 +33,7 @@ sum_popt, sum_pcov = curve_fit(power_crystal_sum, bins[:-1], n, p0 = [244884.29,
 a, k, x0, N = sum_popt
 a_perr, k_perr, x0_perr, N_perr = np.sqrt(np.diag(sum_pcov))
 chisq_test_stats = chisquare(n, power_crystal_sum(bins, *sum_popt)[:-1])
-label = f"Fitted Crystal Ball/ Power Law Function \n a = {a:.3f}$\pm${a_perr:.3f}\n k = {k:.5f}$\pm${k_perr:.3f} \n $x_0$ = {x0:.5f}$\pm${x0_perr:.3f} \n N = {N:.3f}$\pm${N_perr:.3f}\nTest Statistic = {chisq_test_stats[0]:.3f}\np-value = {chisq_test_stats[1]:.3f}"
+label = f"Fitted Crystal Ball/ Power Law Function \n a = {a:.3f}$\pm${a_perr:.3f}\n k = {k:.5f}$\pm${k_perr:.3f} \n $x_0$ = {x0:.5f}$\pm${x0_perr:.3f} \n N = {N:.3f}$\pm${N_perr:.3f}\n $\chi^2$ = {chisq_test_stats[0]:.3f}\np-value = {chisq_test_stats[1]:.3f}"
 ax.plot(bins, power_crystal_sum(bins, *sum_popt), label = label)
 print(sum_popt)
 
@@ -45,6 +45,9 @@ ax.set_title("Summed Crystal Ball & Power Law Fit to Dimuon Data")
 sigma = 2
 N_upper = N + sigma * N_perr
 higgs_upper = scale * N_upper
+sigma_scale = (1.24/240.816) * scale
+sigma_H_upper = (sigma_scale/scale) * higgs_upper
+higgs_upper = sigma_H_upper  + higgs_upper
 print(higgs_upper)
 ax.legend()
 plt.show()

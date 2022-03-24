@@ -8,7 +8,7 @@ from scipy.optimize import curve_fit
 from scipy.integrate import quad
 from sympy import N
 from load import load_data
-from scipy.stats import crystalball
+from scipy.stats import crystalball, chisquare
 
 
 def integrand(x):
@@ -72,10 +72,11 @@ if __name__ == "__main__":
     n, bins, patches = ax.hist(effmass, bins = 500, range = [110,140], density=False, alpha=0.3, label="MC Higgs")
     p0 = [1,1.2,124,1, 10000]
     popt_crystal, pcov_crystal = curve_fit(crystal_ball_vec, bins[:-1], n, p0, maxfev = 10000,)
+    chisq_test_stats = chisquare(n, crystal_ball_vec(bins, *popt_crystal)[:-1])
     alpha, n, x_bar, sigma, N = popt_crystal
     perr = np.sqrt(np.diag(pcov_crystal))
     x_label_1 =  "$\\bar{x}$" + f"={x_bar:.6}$\pm${perr[2]:.3}"
-    x_label_2 =  f"Fitted Crystal Ball Function \n $\\alpha$ = {alpha:.6}$\pm${perr[0]:.3} \n n = {n:.6}$\pm${perr[1]:.3} \n $\\sigma$ = {sigma:.6}$\pm${perr[3]:.3} \n N = {N:.6}$\pm${perr[4]:.3} \n " + x_label_1
+    x_label_2 =  f"Fitted Crystal Ball Function \n $\\alpha$ = {alpha:.6}$\pm${perr[0]:.3} \n n = {n:.6}$\pm${perr[1]:.3} \n $\\sigma$ = {sigma:.6}$\pm${perr[3]:.3} \n N = {N:.6}$\pm${perr[4]:.3} \n " + x_label_1 + "\n $\chi^2$ = {chisq_test_stats[0]:.3f}\np-value = {chisq_test_stats[1]:.3f}"
     ax.plot(bins, crystal_ball_vec_self(bins-0.2 , *popt_crystal), label = x_label_2, color="hotpink")
     ax.set_xlabel("Invariant $\mu^{+} \mu^{-}$ mass (GeV/c$^{2}$)")
     ax.set_ylabel("Count")
