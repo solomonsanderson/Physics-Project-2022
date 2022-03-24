@@ -18,8 +18,9 @@ ranges = [110, 140]
 n, bins, patches = ax.hist(effmass, bins = 500, range = ranges, density=False, alpha=0.3, label="Dimuon Data")
 
 # cutting the data for the fit 
-ll = np.argwhere(bins == 122.)[0][0]
-ul = np.argwhere(bins == 128.)[0][0]
+print(bins)
+ll = np.argwhere(bins == 123.98)[0][0]
+ul = np.argwhere(bins == 125.9)[0][0]
 ax.axvspan(xmin = bins[ll], xmax = bins[ul], color="orange", alpha = 0.2, label=f"Gap area between {bins[ll]} and {bins[ul]}")
 
 bins_gap = np.array(list(bins[:ll]) + list(bins[ul:]))
@@ -28,7 +29,6 @@ n_gap = np.array(list(n[:ll]) + list(n[ul:]))
 popt_gap, pcov_gap = curve_fit(power_series, bins_gap[:-1], n_gap, maxfev = 10000, p0 = [5.32501, 2.13, 91.05])
 a, k, x0 = popt_gap
 a_err, k_err, x0_err = np.sqrt(np.diag(pcov_gap))
-# ax.plot(bins_gap[:-1], n_gap)
 ax.plot(bins, power_series(bins, *popt_gap), label=f"Power Fit Curve:\n $a={a:.5f} \pm {a_err:.3f}$ \n $k={k:.5f}\pm{k_err:.3f}$ \n $x_0 = {x0:.5f}\pm{x0_err:.3f}$" , color="forestgreen", marker = None)
 
 # Calculating the area under the power series fit
@@ -39,6 +39,7 @@ err_adjusted = integral[1]/bin_width
 print(f"integral = {integral_adjusted} +- {err_adjusted}")  # has been checked with wolfram alpha and is correct
 
 n_gap_sum = sum(n[ll:ul])
+
 print(f"Count in gap = {n_gap_sum}")
 
 textstr = f"Integral = {integral_adjusted:.5f} +- {err_adjusted} \n Count in gap = {n_gap_sum:.5f}$\pm${np.sqrt(n_gap_sum):.3f}"

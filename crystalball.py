@@ -66,10 +66,10 @@ def crystal_ball_vec_self(x,  alpha, n, x_bar, sigma, N):
 if __name__ == "__main__":
     path = r"Code\data\higgs.data"
     effmass = load_data(path)[6]
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots() 
     
     
-    n, bins, patches = ax.hist(effmass, bins = 500, range = [100,140], density=False, alpha=0.3, label="MC Higgs")
+    n, bins, patches = ax.hist(effmass, bins = 500, range = [110,140], density=False, alpha=0.3, label="MC Higgs")
     p0 = [1,1.2,124,1, 10000]
     popt_crystal, pcov_crystal = curve_fit(crystal_ball_vec, bins[:-1], n, p0, maxfev = 10000,)
     alpha, n, x_bar, sigma, N = popt_crystal
