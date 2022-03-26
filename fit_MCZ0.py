@@ -38,7 +38,9 @@ if __name__ == "__main__":
     bins = bins[:-1]
     popt, pcov = curve_fit(V, bins, n,  p0=[1.35105, 2.20259, 90.25890, 2], maxfev = 7000)
     chisq_test_stats_voigt = chisquare(n, V(bins, *popt))
-
+    # print(chisq_test_stats_voigt)
+    chisqu = (chisq_test_stats_voigt[0]) / (len(bins) - 1)
+    print(chisqu)
     # popt, pcov = curve_fit(V, bins, n, maxfev = 7000)
     alpha, gamma, x0, N = popt
     alpha_err, gamma_err, x0_err, N_err = np.sqrt(np.diag(pcov))
@@ -52,6 +54,8 @@ if __name__ == "__main__":
 
     popt_power, pcov_power = curve_fit(power_series, bins, n, maxfev = 1000000)
     chisq_test_stats_power = chisquare(n, power_series(bins, *popt_power))
+    chisqu = (chisq_test_stats_power[0]) / (len(bins) - 1)
+    print(chisqu)
     a, k, x0 = popt_power[0], popt_power[1], popt_power[2]
     a_err, k_err, x0_err = np.sqrt(np.diag(pcov_power))
     ax.plot(bins+0.5, power_series(bins, a, k, x0),label=f"Power Fit Curve:\n $a={a:.5f} \pm {a_err:.3f}$ \n $k={k:.5f}\pm{k_err:.3f}$ \n $x_0 = {x0:.5f}\pm{x0_err:.3f}$ \n $\chi^2$ = {chisq_test_stats_power[0]:.3f}\np-value = {chisq_test_stats_power[1]:.3f}" , color="forestgreen", marker = None)

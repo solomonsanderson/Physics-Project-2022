@@ -47,7 +47,7 @@ N_upper = N + sigma * N_perr
 higgs_upper = scale * N_upper
 sigma_scale = (1.24/240.816) * scale
 sigma_H_upper = (sigma_scale/scale) * higgs_upper
-higgs_upper = sigma_H_upper  + higgs_upper
+higgs_upper = 2 *   sigma_H_upper  + higgs_upper
 print(higgs_upper)
 ax.legend()
 plt.show()
