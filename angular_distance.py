@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 21 16:39:55 2022
-
-@author: sam-j
-"""
-
 '''
-COMPARE DELTA R CODE
+Comparing the angular distance between the different datasets
 '''
 
 import numpy as np 
@@ -30,10 +23,8 @@ phi_1_Z0, phi_2_Z0 = data_Z0[1], data_Z0[4]
 delta_r_dm = np.sqrt( np.square(eta_1_dm - eta_2_dm) + np.square(phi_1_dm - phi_2_dm) )
 delta_r_Z0 = np.sqrt( np.square(eta_1_Z0 - eta_2_Z0) + np.square(phi_1_Z0 - phi_2_Z0) )
 
-
-# =============================================================================
 # # Histogram
-# =============================================================================
+
 plt.figure(figsize=[9,9])
 
 n_dm, bins_dm, patches_dm = plt.hist(delta_r_dm, bins=100, density=True, alpha=0.5, label='Real Dimuon Decay Data')

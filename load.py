@@ -12,3 +12,4 @@ def load_data(path):
      - Pandas data frame of the data file'''
     data = pd.read_csv(path, delim_whitespace = True , header=None)
     return data
+    

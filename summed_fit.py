@@ -42,12 +42,15 @@ ax.set_ylabel("Count")
 ax.set_title("Summed Crystal Ball & Power Law Fit to Dimuon Data")
 
 # Calculating a scaling factor, for finding the upper limit on the number of higgs
-sigma = 2
-N_upper = N + sigma * N_perr
-higgs_upper = scale * N_upper
-sigma_scale = (1.24/240.816) * scale
-sigma_H_upper = (sigma_scale/scale) * higgs_upper
-higgs_upper = 2 *   sigma_H_upper  + higgs_upper
+var_higgs_0 = ((len(higgs_effmass) / 240.816) ** 2) * ( (N_perr)**2)
+
+var_higgs_1 = (((-len(higgs_effmass) * N) / (240.816 ** 2)) **2) * (1.24**2)
+
+sigma_higgs_no = np.sqrt(var_higgs_0 + var_higgs_1)
+
+
+higgs_no = N * len(higgs_effmass) / 240.816
+higgs_upper = higgs_no + 2 * sigma_higgs_no
 print(higgs_upper)
 ax.legend()
 plt.show()

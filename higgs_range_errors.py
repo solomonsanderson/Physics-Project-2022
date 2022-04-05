@@ -1,16 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Mar  4 10:48:06 2022
-
-@author: sam-j
-"""
-
-# =============================================================================
-# Finding percentage of points contained in a range and the errors associated
-# with them. Dataframe at the end is created to tabulate errors and percentages
-# so that it can be sorted and compared.
-# =============================================================================
-
+'''
+Finding percentage of points contained in a range and the errors associated
+with them. Dataframe at the end is created to tabulate errors and percentages
+so that it can be sorted and compared.
+'''
 
 
 import matplotlib.pyplot as plt
@@ -22,7 +14,7 @@ from load import load_data
 from matplotlib.patches import Rectangle
 
 
-path = r"data/higgs.data"
+path = r"Code/data/higgs.data"
 
 effmass = load_data(path)[6]
 fig, ax = plt.subplots()
@@ -52,12 +44,6 @@ def crystal_ball(x, alpha, n, x_bar, sigma, N):
     
     A = (n/np.abs(alpha))**n * np.exp(-(np.abs(alpha)**2) / 2)
     B = n / np.abs(alpha) - np.abs(alpha)
-    # C = (n/np.abs(alpha)) * (1/(n-1)) * np.exp(-(np.abs(alpha)**2)/2)
-    # D = np.sqrt(np.pi/2) * (1 + error_func(np.abs(alpha)/np.sqrt(2))[0])
-    # N = 1/(sigma*(C+D))
-    
-
-    # print(f'A:{A}, B:{B}, C:{C}, D:{D}, N:{N}')
 
 
     def greater_minus_alpha(x):
@@ -77,6 +63,7 @@ def crystal_ball(x, alpha, n, x_bar, sigma, N):
 
     return f
 
+
 crystal_ball_vec = np.vectorize(crystal_ball)
 
 def crystal_ball_vec_self(x,  alpha, n, x_bar, sigma, N):
@@ -90,41 +77,11 @@ popt_crystal, pcov_crystal = curve_fit(crystal_ball_vec, bins[:-1], n, maxfev = 
 alpha, n_crystal, x_bar, sigma, N = popt_crystal
 
 
-# def dx(fn, x, delta=0.001):
-#     return (fn(x+delta, *popt_crystal) - fn(x, *popt_crystal))/delta
-
-# def find_same_height(x, fn, value, maxtries=1000, maxerr=0.00001):
-#     for tries in range(maxtries):
-#         err = fn(x, *popt_crystal) - value
-#         if abs(err) < maxerr:
-#             return x
-#         slope = dx(fn, x)
-#         change = err/slope
-#         x -= change
-#     raise ValueError('no soln found')
-
-
-
-# lower_limit = np.array([116.0])
-# height = crystal_ball_vec_self(lower_limit, *popt_crystal)
-# upper_limit = find_same_height(np.array([129.0]), crystal_ball_vec_self, height)
-
-# print(crystal_ball_vec_self(lower_limit, *popt_crystal))
-# print(crystal_ball_vec_self(upper_limit, *popt_crystal))
-
-
-# ax.vlines(lower_limit +0.5, 0, 4000, linestyles='dashed')
-# ax.hlines(height, 80, 140, linestyles='dashed')
-# ax.vlines(upper_limit + 0.5, 0, 4000, linestyles='dashed')
-
-
-
-# quad(crystal_ball_vec_self, lower_limit, upper_limit, args=(alpha, n, x_bar, sigma, N))
-
 lower_limit_range = range(80,122)
 upper_limit_range = range(128,140)
 
 limits_and_errors = []
+
 
 for lower_limit in lower_limit_range:
     for upper_limit in upper_limit_range:
@@ -140,8 +97,7 @@ for lower_limit in lower_limit_range:
         
         row = [lli, uli, no_in_range, p, p_sigma]
         limits_and_errors.append(row)
-        
-        # print(f'lower bound: {lower_limit} \tupper bound: {upper_limit} \tNo in range: {no_in_range}\t% of data: {(no_in_range/len(effmass)):.4f}\terror: {p_sigma}')
+
 
 lim_and_err_df = pd.DataFrame(limits_and_errors, columns=['lower','upper','no','p','p_err'])
 
@@ -149,17 +105,8 @@ ax.axvspan(lower_limit_range[0], upper_limit_range[0], 0, 4000, color='red', alp
 ax.axvspan(lower_limit_range[-1], upper_limit_range[-1], 0, 4000, color='red', alpha=0.08)
 
 
-
-
-
 ax.vlines(lower_limit_range[0], 0, 4000, linestyles='dashed')
 ax.vlines(upper_limit_range[-1], 0, 4000, linestyles='dashed')
-
-# print(len(effmass))
-# print(no_in_range/len(effmass) * 100)
-
-
-
 
 
 x_label_1 =  "$\\bar{x}$" + f"={x_bar:.6}"
@@ -170,12 +117,3 @@ ax.set_ylabel("Count")
 ax.set_title("Histogram of MC Higgs data with Crystal Ball Function")
 ax.legend()
 plt.show()
-
-
-
-
-
-
-
-
-
